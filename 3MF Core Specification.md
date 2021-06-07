@@ -608,6 +608,51 @@ If the properties defined on the triangle are from a \<basematerials> group (see
 >**Note:** The triangle orientation is affected by the sign of the determinant of the transformation as described in Section 4.1.
 
 
+### 4.1.5. Trianglesets
+
+Element **\<trianglesets>**
+
+![trianglesets](images/trianglesets.png)
+
+A _mesh node_ MAY contain a _trianglesets node_ that contains information how triangles are grouped and organized.
+
+A \<trianglesets> element acts as a container for triangleset nodes. The order of these elements forms an implicit 0-based index that MAY be referenced externally by their identifier.
+
+### 4.1.6. Triangle Set-Elements
+
+Element **\<triangleset>**
+
+![triangleset](images/triangleset.png)
+
+| Name   | Type   | Use   | Default   | Annotation |
+| --- | --- | --- | --- | --- |
+| name   | **ST\_String**   |  | required | Human-readable name of the triangle collection. MUST not be empty. |
+| identifier | **ST\_String** |  | required | Might be used for external identification of the triangle collection data. The identifier attribute MUST be unique within the mesh and MUST not be empty. |
+
+A _triangle set_ contains a reference list to a subset of triangles to apply grouping operations and assign properties to a list of triangles. Editing applications might use this information for internal purposes, for example color display and selection workflows.
+
+A triangleset is a collection of references to triangles. Since triangles do not have a specific influence on the geometrical shape, a consumer MAY ignore the information.
+
+A consumer MUST ignore duplicate references to the same triangle in one set. A producer SHOULD avoid creating duplicate references to the same triangle in one set.
+
+>**Note:** By purpose, a single triangle can be referenced by multiple triangle sets. There are many applications that expect a disjoint segmentation of the mesh. A producer SHOULD try to output disjoint sets if its application does not demand otherwise. If a consumer needs to convert a generic triangle set collection into a disjoint segmentation, priority SHOULD be given to the last set a triangle occurs.
+
+
+
+#### 4.1.6.1. Triangle Set References
+
+Element **\<ref>**
+
+![ref](images/ref.png)
+
+| Name   | Type   | Use   | Default   | Annotation |
+| --- | --- | --- | --- | --- |
+| index   | **ST\_ResourceIndex**   | required   |   | References an index in the mesh triangle list. |
+
+A \<ref> element in a triangle refers to the zero-based indexed \<triangle> elements that are contained in the _triangles node._
+
+
+
 ## 4.2. Components
 
 Element **\<components>**
